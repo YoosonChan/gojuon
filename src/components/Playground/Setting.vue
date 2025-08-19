@@ -13,8 +13,8 @@ const handleClickKatakana = () => {
 </script>
 
 <template>
-  <div class="w-full p-2 box-border border rounded-md">
-    <div class="space-x-1">
+  <div class="w-full p-2 box-border border rounded-md flex justify-center">
+    <div class="space-x-1 text-gray-600">
       <span @click="handleClickHiragana()" class="cursor-pointer">平</span>
       <span @click="handleClickKatakana()" class="cursor-pointer">片</span>
     </div>
