@@ -5,10 +5,12 @@ import { playKanaAudio } from '../../utils/kana';
 const props = defineProps<{
   value: string
   playAudio?: boolean
+  showHint?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'correct', value: boolean): void
+  (e: 'hint', value: boolean): void
 }>()
 
 const answer = ref('')
@@ -19,11 +21,10 @@ const handleEnter = () => {
   answer.value = ''
 }
 
-const showHint = ref(false)
 const playAudioFlag = ref(false)
 const handleTabDown = (event: KeyboardEvent) => {
   event.preventDefault()
-  showHint.value = true
+  emit('hint', true)
   if (props.playAudio && !playAudioFlag.value) {
     playKanaAudio(props.value)
     playAudioFlag.value = true
@@ -31,7 +32,7 @@ const handleTabDown = (event: KeyboardEvent) => {
 }
 const handleTabUp = (event: KeyboardEvent) => {
   event.preventDefault()
-  showHint.value = false
+  emit('hint', false)
   playAudioFlag.value = false
 }
 </script>
@@ -39,7 +40,7 @@ const handleTabUp = (event: KeyboardEvent) => {
 <template>
   <div class="w-full flex justify-center">
     <input v-model="answer" @keyup.enter="handleEnter" @keydown.tab="handleTabDown" @keyup.tab="handleTabUp"
-      :placeholder="showHint ? props.value : ''" type="text" class="w-48 text-5xl text-center 
+      :placeholder="props.showHint ? props.value : ''" type="text" class="w-48 text-5xl text-center 
       py-1 border-b-4 border-gray-300 hover:border-gray-700 outline-0
       focus:outline-0 focus:border-b-4 focus:border-black focus:ring-0" style="font-family: 'Fira Code', monospace;" />
   </div>
