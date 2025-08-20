@@ -5,13 +5,13 @@ import KanaCard from './KanaCard.vue';
 // import Setting from './Setting.vue';
 import AnswerInput from './AnswerInput.vue';
 
-const playground = usePlaygroundStore()
+const playgroundStore = usePlaygroundStore()
 
-const kana = computed(() => playground.value)
+const kana = computed(() => playgroundStore.value)
 console.log(kana.value)
 
 const handleCorrect = (isCorrect: boolean) => {
-  if (isCorrect) playground.updateCurrentValue()
+  if (isCorrect) playgroundStore.updateCurrentValue()
 }
 
 const showHint = ref(false)
@@ -20,7 +20,7 @@ const handleHint = (value: boolean) => {
 }
 
 const init = () => {
-  playground.updateCurrentValue()
+  playgroundStore.updateCurrentValue()
 }
 init()
 </script>
