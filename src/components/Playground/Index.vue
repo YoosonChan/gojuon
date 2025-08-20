@@ -10,7 +10,10 @@ const playgroundStore = usePlaygroundStore()
 const kana = computed(() => playgroundStore.value)
 
 const handleCorrect = (isCorrect: boolean) => {
-  if (isCorrect) playgroundStore.updateCurrentValue()
+  if (isCorrect) {
+    playgroundStore.updateCurrentValue()
+    showHint.value = false
+  }
 }
 
 const showHint = ref(false)
