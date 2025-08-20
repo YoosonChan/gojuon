@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
+import router from '../../router';
 import { usePlaygroundStore } from '../../store';
 import { playKanaAudio } from '../../utils/kana';
 
@@ -13,10 +14,14 @@ const emit = defineEmits<{
   (e: 'hint', value: boolean): void
 }>()
 
+// input focus
 const isFocused = ref(false)
+const inputRef = ref<HTMLInputElement>()
+onMounted(() => {
+  inputRef.value?.focus()
+})
 // answer input
 const answer = ref('')
-const inputRef = ref<HTMLInputElement>()
 const handleEnter = () => {
   if (answer.value.trim() === '') return
   const isCorrect = answer.value.trim().toLowerCase() === props.value.toLowerCase()
@@ -74,9 +79,13 @@ const handleSkip = () => {
 }
 const handleMastered = () => {
   emit('correct', true)
+  emit('hint', false)
   answer.value = ''
   playgroundStore.updateCurrentValue()
   setTimeout(() => { inputRef.value?.focus() }, 10)
+}
+const handleToDoc = () => {
+  router.push({ path: '/doc' })
 }
 </script>
 
@@ -93,7 +102,7 @@ const handleMastered = () => {
       <div class="flex items-center">
         <object class="w-6 h-6" data="/public/favicon.svg" type="image/svg+xml"></object>
       </div>
-      <div class="flex justify-center space-x-2">
+      <div class="flex justify-center space-x-4">
         <button @mousedown.prevent @click="handleMastered"
           class="text-sm text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors">︎√</button>
         <button @mousedown.prevent @click="handleHint"
@@ -102,7 +111,7 @@ const handleMastered = () => {
           class="text-sm text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors">→</button>
       </div>
       <div>
-        <span class="w-6">?</span>
+        <button @mousedown.prevent @click="handleToDoc" class="w-6 text-center">?</button>
       </div>
     </div>
   </div>
