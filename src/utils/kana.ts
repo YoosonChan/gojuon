@@ -1,16 +1,27 @@
+import { Kana } from '../types';
 import kana from './data.json';
 
-export const getKana = () => {
-  return [...getHiragana(), ...getKatakana()]
+export type KanaType = 'hiragana' | 'katakana'
+export type KanaRange = 'あ' | 'が' | 'きゃ'
+
+const kanaMap = new Map<KanaRange, Kana[]>([
+  ['あ', kana[0]],
+  ['が', kana[1]],
+  ['きゃ', kana[2]]
+])
+
+export const getAllKana = (range?: KanaRange[]) => {
+  return [...getKana('hiragana', range), ...getKana('katakana', range)]
 }
 
-export const getHiragana = () => {
-  return kana.map(({ key, value }) => ({ key, value: value.split('/')[0] }));
-};
-
-export const getKatakana = () => {
-  return kana.map(({ key, value }) => ({ key, value: value.split('/')[1] }));
-};
+export const getKana = (type?: KanaType, range?: KanaRange[]) => {
+  const types = ['hiragana', 'katakana']
+  let _kana: Kana[][] = kana
+  const _range = [...new Set(range)]
+  if (_range.length > 0) _kana = _range.map(key => kanaMap.get(key)) as Kana[][]
+  const index = types.findIndex(_type => _type === type) > 0 ? 1 : 0
+  return _kana.flat().map(({ key, value }) => ({ key, value: value.split('/')[index] }));
+}
 
 export const playKanaAudio = (key: string) => {
   try {

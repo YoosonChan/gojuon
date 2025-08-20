@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import router from '../../router';
 import { usePlaygroundStore } from '../../store';
 import { playKanaAudio } from '../../utils/kana';
+import SettingBar from './SettingBar.vue';
 
 const props = defineProps<{
   value: string
@@ -96,22 +97,25 @@ const handleToDoc = () => {
       :placeholder="props.showHint ? props.value : ''" type="text" class="w-48 text-5xl text-center 
       py-1 border-b-4 border-gray-300 hover:border-gray-700 outline-0
       focus:outline-0 focus:border-b-4 focus:border-black focus:ring-0" style="font-family: 'Fira Code', monospace;" />
-    <!-- <div class="fixed left-0 flex justify-between items-center w-full p-3 transition-all duration-300 ease-in-out" -->
-    <div v-show="isFocused" class="fixed left-0 flex justify-between w-full p-3 transition-all duration-300 ease-in-out"
+    <!-- <div class="fixed left-0 w-full p-3 transition-all duration-300 ease-in-out" -->
+    <div v-show="isFocused" class="fixed left-0 w-full p-3 transition-all duration-300 ease-in-out"
       :style="{ bottom: keyboardHeight + 'px' }" style="font-family: 'Fira Code', monospace;">
-      <div class="flex items-center">
-        <object class="w-6 h-6" data="/public/favicon.svg" type="image/svg+xml"></object>
-      </div>
-      <div class="flex justify-center space-x-4">
-        <button @mousedown.prevent @click="handleMastered"
-          class="text-sm text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors">︎√</button>
-        <button @mousedown.prevent @click="handleHint"
-          class="text-sm text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors">‼︎</button>
-        <button @mousedown.prevent @click="handleSkip"
-          class="text-sm text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors">→</button>
-      </div>
-      <div>
-        <button @mousedown.prevent @click="handleToDoc" class="w-6 text-center">?</button>
+      <SettingBar />
+      <div class="flex justify-between">
+        <div class="flex items-center">
+          <object class="w-6 h-6" data="/public/favicon.svg" type="image/svg+xml"></object>
+        </div>
+        <div class="flex justify-center space-x-4">
+          <button @mousedown.prevent @click="handleMastered"
+            class="text-sm text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors">︎✓</button>
+          <button @mousedown.prevent @click="handleHint"
+            class="text-sm text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors">‼︎</button>
+          <button @mousedown.prevent @click="handleSkip"
+            class="text-sm text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors">→</button>
+        </div>
+        <div>
+          <button @mousedown.prevent @click="handleToDoc" class="w-6 text-center">?</button>
+        </div>
       </div>
     </div>
   </div>

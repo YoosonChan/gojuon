@@ -8,7 +8,6 @@ import AnswerInput from './AnswerInput.vue';
 const playgroundStore = usePlaygroundStore()
 
 const kana = computed(() => playgroundStore.value)
-console.log(kana.value)
 
 const handleCorrect = (isCorrect: boolean) => {
   if (isCorrect) playgroundStore.updateCurrentValue()
@@ -27,10 +26,11 @@ init()
 
 <template>
   <div class="w-full h-full p-2">
-    <!-- <Setting /> -->
-    <KanaCard :value="kana" @hint="handleHint" class="my-4" />
-    <AnswerInput :value="kana.key" :show-hint="showHint" @correct="handleCorrect" @hint="handleHint" play-audio
-      class="my-16" />
+    <template v-if="kana">
+      <KanaCard :value="kana" @hint="handleHint" class="my-4" />
+      <AnswerInput :value="kana.key" :show-hint="showHint" @correct="handleCorrect" @hint="handleHint" play-audio
+        class="my-16" />
+    </template>
   </div>
 </template>
 
