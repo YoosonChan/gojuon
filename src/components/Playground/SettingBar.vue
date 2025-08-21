@@ -69,12 +69,13 @@ const handleClearRange = () => {
       </button>
       <span>·</span>
       <button v-for="item in ranges" :key="item.key" @mousedown.prevent @click="handleClickRange(item.key)"
-        class="text-gray-500 hover:text-gray-600 p-1 border-0 transition-colors"
-        :class="{ 'text-black': item.selected, 'text-lg': item.selected }">︎{{ item.key }}</button>
+        class="text-gray-400 p-1 border-0 transition-colors">︎
+        <span :class="{ 'text-black': item.selected, 'text-lg': item.selected }">{{ item.key }}</span>
+      </button>
     </div>
     <div>
       <button @mousedown.prevent @click="handleClearRange"
-        class="text-gray-500 hover:text-gray-900 p-1 border-0 transition-colors">︎♲</button>
+        class="text-gray-500 hover:text-black p-1 border-0 transition-colors">︎♲</button>
     </div>
   </div>
 </template>
